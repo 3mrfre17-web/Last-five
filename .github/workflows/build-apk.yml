@@ -1,4 +1,3 @@
-
 name: Build LAST FIVE APK
 
 on:
@@ -25,6 +24,10 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: stable
+
+      - name: Generate Android project files
+        working-directory: last_five/mobile
+        run: flutter create --platforms=android --org com.lastfive .
 
       - name: Get Flutter packages
         working-directory: last_five/mobile
