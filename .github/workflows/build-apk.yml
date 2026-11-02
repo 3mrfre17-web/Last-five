@@ -14,6 +14,10 @@ jobs:
       - name: Extract project ZIP
         run: unzip -q LAST_FIVE_project.zip
 
+      - name: Fix Flutter CardTheme compatibility
+        working-directory: last_five/mobile
+        run: sed -i 's/cardTheme: CardTheme(/cardTheme: CardThemeData(/' lib/core/theme.dart
+        
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
