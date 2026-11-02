@@ -1,0 +1,41 @@
+
+name: Build LAST FIVE APK
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Extract project ZIP
+        run: unzip -q LAST_FIVE_project.zip
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Get Flutter packages
+        working-directory: last_five/mobile
+        run: flutter pub get
+
+      - name: Build APK
+        working-directory: last_five/mobile
+        run: flutter build apk --debug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: LAST-FIVE-APK
+          path: last_five/mobile/build/app/outputs/flutter-apk/app-debug.apk
